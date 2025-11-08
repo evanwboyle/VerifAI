@@ -62,16 +62,11 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, containsBefore: Bool) {
+func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, beforeImage : Data?) {
     let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [])
     var rubric: String? = nil
-    if containsBefore {
+    if beforeImage != nil {
         var initialstate: String? = nil
-        var beforeImage: Data? = nil
-        // Try to get the before image until successful
-        repeat {
-            beforeImage = getBefore()
-        } while beforeImage == nil
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the initial image, respond with two XML tags: <rubric> (a short guideline for measuring progress towards the user's goal) and <initialstate> (a 1-2 sentence description of the initial state of the image, especially as it relates to the rubric)."
         GrokService.shared.callGrokAPI(message: userPrompt, imageData: beforeImage, systemPrompt: systemPrompt) { result in
             switch result {
