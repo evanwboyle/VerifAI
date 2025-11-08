@@ -1,16 +1,22 @@
 //
 //  RestrictView.swift
-//  VerifAI
+//  Screen Time
 //
-//  Created by Evan Boyle on 11/7/25.
+//  Created on 29/05/24.
+//
 //
 
 import SwiftUI
 import FamilyControls
+import os.log
+
+private let logger = Logger(subsystemName: "RestrictView", category: "View")
 
 struct RestrictView: View {
-    @StateObject private var manager = RestrictionsManager.shared
+    @EnvironmentObject private var manager: ShieldViewModel
     @State private var showActivityPicker = false
+    @State private var isMonitoring = false
+    @State private var statusMessage = "Not restricting."
 
     var body: some View {
         NavigationStack {
@@ -19,13 +25,12 @@ struct RestrictView: View {
                     // Status Card
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Image(systemName: manager.isMonitoring ? "shield.fill" : "shield")
-                                .foregroundColor(manager.isMonitoring ? .green : .gray)
+                            Image(systemName: isMonitoring ? "shield.fill" : "shield")
+                                .foregroundColor(isMonitoring ? .green : .gray)
                             Text("Restriction Status")
                                 .font(.headline)
                         }
-
-                        Text(manager.statusMessage)
+                        Text(statusMessage)
                             .font(.body)
                             .foregroundColor(.secondary)
                             .padding(.vertical, 8)
@@ -38,7 +43,6 @@ struct RestrictView: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Select Apps to Restrict")
                             .font(.headline)
-
                         Button(action: { showActivityPicker = true }) {
                             HStack {
                                 Image(systemName: "square.and.pencil")
@@ -52,19 +56,18 @@ struct RestrictView: View {
                         }
                         .familyActivityPicker(
                             isPresented: $showActivityPicker,
-                            selection: $manager.activitySelection
+                            selection: $manager.familyActivitySelection
                         )
-
                         // Selected Items Count
-                        if !manager.activitySelection.applications.isEmpty ||
-                            !manager.activitySelection.categories.isEmpty {
+                        if !manager.familyActivitySelection.applications.isEmpty ||
+                            !manager.familyActivitySelection.categories.isEmpty {
                             VStack(alignment: .leading, spacing: 4) {
-                                if !manager.activitySelection.applications.isEmpty {
-                                    Label("\(manager.activitySelection.applications.count) app(s) selected", systemImage: "app")
+                                if !manager.familyActivitySelection.applications.isEmpty {
+                                    Label("\(manager.familyActivitySelection.applications.count) app(s) selected", systemImage: "app")
                                         .font(.caption)
                                 }
-                                if !manager.activitySelection.categories.isEmpty {
-                                    Label("\(manager.activitySelection.categories.count) categor(ies) selected", systemImage: "square.grid.2x2")
+                                if !manager.familyActivitySelection.categories.isEmpty {
+                                    Label("\(manager.familyActivitySelection.categories.count) categor(ies) selected", systemImage: "square.grid.2x2")
                                         .font(.caption)
                                 }
                             }
@@ -74,12 +77,11 @@ struct RestrictView: View {
 
                     // Control Buttons
                     VStack(spacing: 12) {
-                        if !manager.isMonitoring {
+                        if !isMonitoring {
                             Button(action: {
-                                manager.configureRestrictions()
-                                Task {
-                                    await manager.startMonitoring()
-                                }
+                                manager.shieldActivities()
+                                isMonitoring = true
+                                statusMessage = "Restrictions applied."
                             }) {
                                 HStack {
                                     Image(systemName: "play.fill")
@@ -93,9 +95,9 @@ struct RestrictView: View {
                             }
                         } else {
                             Button(action: {
-                                Task {
-                                    await manager.stopMonitoring()
-                                }
+                                // No direct stop in ShieldViewModel, so just update UI
+                                isMonitoring = false
+                                statusMessage = "Restrictions stopped."
                             }) {
                                 HStack {
                                     Image(systemName: "stop.fill")
@@ -108,9 +110,11 @@ struct RestrictView: View {
                                 .cornerRadius(8)
                             }
                         }
-
                         Button(action: {
-                            manager.clearRestrictions()
+                            // Clear selection and update UI
+                            manager.familyActivitySelection = FamilyActivitySelection()
+                            isMonitoring = false
+                            statusMessage = "All restrictions cleared."
                         }) {
                             HStack {
                                 Image(systemName: "xmark")
@@ -123,7 +127,6 @@ struct RestrictView: View {
                             .cornerRadius(8)
                         }
                     }
-
                     Spacer()
                 }
                 .padding()
@@ -136,4 +139,5 @@ struct RestrictView: View {
 
 #Preview {
     RestrictView()
+        .environmentObject(ShieldViewModel())
 }

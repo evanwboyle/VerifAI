@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import FamilyControls
+import os.log
 
 struct ContentView: View {
+    @StateObject private var manager = ShieldViewModel()
     var body: some View {
+        
         TabView {
             // Home Tab
             HomeView()
@@ -30,8 +34,13 @@ struct ContentView: View {
 
             // Restrict Tab
             RestrictView()
+                .environmentObject(manager)
+                .task(id: "requestAuthorizationTaskID") {
+                    await manager.requestAuthorization()
+                }
                 .tabItem {
                     Label("Restrict", systemImage: "shield.fill")
+                
                 }
 
             // Settings Tab
