@@ -7,10 +7,14 @@
 
 import SwiftUI
 import FamilyControls
+import SwiftData
 
 struct SettingsView: View {
     @State private var authorizationStatus = "Checking..."
     @State private var showAuthAlert = false
+    @Environment(\.modelContext) private var modelContext
+    @Query var settings: [TaskSettings]
+    @State private var defaultTime: Int = 30
 
     var body: some View {
         NavigationStack {
@@ -43,6 +47,27 @@ struct SettingsView: View {
                         .cornerRadius(8)
                     }
 
+                    // Default Time Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Task Settings")
+                            .font(.headline)
+                        HStack {
+                            Text("Default Time to Complete Task (minutes)")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Stepper(value: $defaultTime, in: 1...240) {
+                                Text("\(defaultTime) min")
+                            }
+                            .onChange(of: defaultTime) { newValue in
+                                updateDefaultTime(newValue)
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+
                     Spacer()
                 }
                 .padding()
@@ -51,6 +76,7 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 checkAuthorizationStatus()
+                loadDefaultTime()
             }
             .alert("Authorization Result", isPresented: $showAuthAlert) {
                 Button("OK") { }
@@ -90,6 +116,24 @@ struct SettingsView: View {
                 authorizationStatus = "❌ Error: \(error.localizedDescription)"
                 showAuthAlert = true
             }
+        }
+    }
+
+    private func loadDefaultTime() {
+        if let first = settings.first {
+            defaultTime = first.defaultTimeToComplete
+        } else {
+            let newSettings = TaskSettings(defaultTimeToComplete: defaultTime)
+            modelContext.insert(newSettings)
+        }
+    }
+
+    private func updateDefaultTime(_ newValue: Int) {
+        if let first = settings.first {
+            first.defaultTimeToComplete = newValue
+        } else {
+            let newSettings = TaskSettings(defaultTimeToComplete: newValue)
+            modelContext.insert(newSettings)
         }
     }
 }
