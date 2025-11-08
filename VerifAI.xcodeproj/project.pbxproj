@@ -44,7 +44,9 @@
 		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
 		76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C252EBF1E820037E82F /* Secrets.plist */; };
 		76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C272EBF96890037E82F /* ImagePicker.swift */; };
-		76ED7C2B2EBFA30A0037E82F /* TaskSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C292EBFA30A0037E82F /* TaskSettings.swift */; };
+		76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2C2EBFB5930037E82F /* TaskModule.swift */; };
+		76ED7C302EBFB77F0037E82F /* VerifAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */; };
+		76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C312EBFB8660037E82F /* PersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,7 +126,9 @@
 		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		76ED7C252EBF1E820037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		76ED7C272EBF96890037E82F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		76ED7C292EBFA30A0037E82F /* TaskSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSettings.swift; sourceTree = "<group>"; };
+		76ED7C2C2EBFB5930037E82F /* TaskModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModule.swift; sourceTree = "<group>"; };
+		76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VerifAI.xcdatamodel; sourceTree = "<group>"; };
+		76ED7C312EBFB8660037E82F /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				41AA52272C0735A800786F96 /* VerifAI.entitlements */,
+				76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */,
 				41AA52142C07245100786F96 /* App */,
 				41AA52192C0724B400786F96 /* Extensions */,
 				41AA52222C07337500786F96 /* View Models */,
@@ -313,7 +318,8 @@
 		76ED7C2A2EBFA30A0037E82F /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				76ED7C292EBFA30A0037E82F /* TaskSettings.swift */,
+				76ED7C2C2EBFB5930037E82F /* TaskModule.swift */,
+				76ED7C312EBFB8660037E82F /* PersistenceController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -480,16 +486,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */,
-				76ED7C2B2EBFA30A0037E82F /* TaskSettings.swift in Sources */,
 				41AA521B2C0724C300786F96 /* Logger.swift in Sources */,
 				76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */,
 				41AA52072C07243F00786F96 /* VerifAIApp.swift in Sources */,
+				76ED7C302EBFB77F0037E82F /* VerifAI.xcdatamodeld in Sources */,
 				41AA52772C075FE600786F96 /* ManagedSettingsStore.swift in Sources */,
 				41AA52262C07351300786F96 /* ShieldView.swift in Sources */,
 				41AA52242C07338300786F96 /* ShieldViewModel.swift in Sources */,
 				76ED7BEB2EBF08390037E82F /* ContentView.swift in Sources */,
+				76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */,
 				76ED7BEC2EBF08390037E82F /* CameraView.swift in Sources */,
 				76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */,
+				76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */,
 				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
 				76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */,
 				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
@@ -940,6 +948,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */,
+			);
+			currentVersion = 76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */;
+			name = VerifAI.xcdatamodeld;
+			path = VerifAI/Resources/VerifAI.xcdatamodeld;
+			sourceTree = SOURCE_ROOT;
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 41AA51FB2C07243F00786F96 /* Project object */;
 }

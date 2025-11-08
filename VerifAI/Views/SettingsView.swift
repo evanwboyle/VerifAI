@@ -7,13 +7,16 @@
 
 import SwiftUI
 import FamilyControls
-import SwiftData
+import CoreData
 
 struct SettingsView: View {
     @State private var authorizationStatus = "Checking..."
     @State private var showAuthAlert = false
-    @Environment(\.modelContext) private var modelContext
-    @Query var settings: [TaskSettings]
+    @Environment(\.managedObjectContext) private var managedObjectContext
+    @FetchRequest(
+        entity: TaskSettings.entity(),
+        sortDescriptors: []
+    ) var settings: FetchedResults<TaskSettings>
     @State private var defaultTime: Int = 30
 
     var body: some View {
@@ -121,22 +124,25 @@ struct SettingsView: View {
 
     private func loadDefaultTime() {
         if let first = settings.first {
-            defaultTime = first.defaultTimeToComplete
+            defaultTime = Int(first.defaultTimeToComplete)
             print("SettingsView: Loaded defaultTimeToComplete =", defaultTime)
         } else {
-            let newSettings = TaskSettings(defaultTimeToComplete: defaultTime)
-            modelContext.insert(newSettings)
+            let newSettings = TaskSettings(context: managedObjectContext)
+            newSettings.defaultTimeToComplete = Int32(defaultTime)
+            try? managedObjectContext.save()
             print("SettingsView: Created new TaskSettings with defaultTimeToComplete =", defaultTime)
         }
     }
 
     private func updateDefaultTime(_ newValue: Int) {
         if let first = settings.first {
-            first.defaultTimeToComplete = newValue
+            first.defaultTimeToComplete = Int32(newValue)
+            try? managedObjectContext.save()
             print("SettingsView: Updated defaultTimeToComplete to", newValue)
         } else {
-            let newSettings = TaskSettings(defaultTimeToComplete: newValue)
-            modelContext.insert(newSettings)
+            let newSettings = TaskSettings(context: managedObjectContext)
+            newSettings.defaultTimeToComplete = Int32(newValue)
+            try? managedObjectContext.save()
             print("SettingsView: Created new TaskSettings with defaultTimeToComplete =", newValue)
         }
     }
