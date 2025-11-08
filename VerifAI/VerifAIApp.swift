@@ -26,6 +26,13 @@ struct VerifAIApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    if let key = Secrets.openAIKey {
+                        print("Loaded OpenAI Key: \(key)")
+                    } else {
+                        print("OpenAI Key not found.")
+                    }
+                }
         }
         .modelContainer(sharedModelContainer)
     }
