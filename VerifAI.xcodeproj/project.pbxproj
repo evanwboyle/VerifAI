@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,14 +24,12 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		76CB31CC2EBEDB8C0022F207 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 13;
+			dstSubfolder = PlugIns;
 			files = (
 				76CB31C72EBEDB8C0022F207 /* VerifAIMonitor.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -42,7 +40,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		76CB31C82EBEDB8C0022F207 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		76CB31C82EBEDB8C0022F207 /* Exceptions for "VerifAIMonitor" folder in "VerifAIMonitor" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -52,25 +50,32 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		76CB315B2EBEC8130022F207 /* VerifAI */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = VerifAI; sourceTree = "<group>"; };
-		76CB31C02EBEDB8C0022F207 /* VerifAIMonitor */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (76CB31C82EBEDB8C0022F207 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = VerifAIMonitor; sourceTree = "<group>"; };
+		76CB315B2EBEC8130022F207 /* VerifAI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VerifAI;
+			sourceTree = "<group>";
+		};
+		76CB31C02EBEDB8C0022F207 /* VerifAIMonitor */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				76CB31C82EBEDB8C0022F207 /* Exceptions for "VerifAIMonitor" folder in "VerifAIMonitor" target */,
+			);
+			path = VerifAIMonitor;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		76CB31562EBEC8130022F207 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		76CB31B92EBEDB8C0022F207 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 				76CB31BF2EBEDB8C0022F207 /* DeviceActivity.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -123,8 +128,6 @@
 				76CB315B2EBEC8130022F207 /* VerifAI */,
 			);
 			name = VerifAI;
-			packageProductDependencies = (
-			);
 			productName = VerifAI;
 			productReference = 76CB31592EBEC8130022F207 /* VerifAI.app */;
 			productType = "com.apple.product-type.application";
@@ -139,14 +142,10 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				76CB31C02EBEDB8C0022F207 /* VerifAIMonitor */,
 			);
 			name = VerifAIMonitor;
-			packageProductDependencies = (
-			);
 			productName = VerifAIMonitor;
 			productReference = 76CB31BC2EBEDB8C0022F207 /* VerifAIMonitor.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -170,7 +169,6 @@
 				};
 			};
 			buildConfigurationList = 76CB31542EBEC8130022F207 /* Build configuration list for PBXProject "VerifAI" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -179,6 +177,7 @@
 			);
 			mainGroup = 76CB31502EBEC8130022F207;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = 76CB315A2EBEC8130022F207 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -192,34 +191,26 @@
 /* Begin PBXResourcesBuildPhase section */
 		76CB31572EBEC8130022F207 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		76CB31BA2EBEDB8C0022F207 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		76CB31552EBEC8130022F207 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		76CB31B82EBEDB8C0022F207 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -232,7 +223,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		76CB31652EBEC8130022F207 /* Debug */ = {
+		76CB31652EBEC8130022F207 /* Debug configuration for PBXProject "VerifAI" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -294,7 +285,7 @@
 			};
 			name = Debug;
 		};
-		76CB31662EBEC8130022F207 /* Release */ = {
+		76CB31662EBEC8130022F207 /* Release configuration for PBXProject "VerifAI" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -348,7 +339,7 @@
 			};
 			name = Release;
 		};
-		76CB31682EBEC8130022F207 /* Debug */ = {
+		76CB31682EBEC8130022F207 /* Debug configuration for PBXNativeTarget "VerifAI" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -387,7 +378,7 @@
 			};
 			name = Debug;
 		};
-		76CB31692EBEC8130022F207 /* Release */ = {
+		76CB31692EBEC8130022F207 /* Release configuration for PBXNativeTarget "VerifAI" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -426,7 +417,7 @@
 			};
 			name = Release;
 		};
-		76CB31CA2EBEDB8C0022F207 /* Debug */ = {
+		76CB31CA2EBEDB8C0022F207 /* Debug configuration for PBXNativeTarget "VerifAIMonitor" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = VerifAIMonitor/VerifAIMonitor.entitlements;
@@ -454,7 +445,7 @@
 			};
 			name = Debug;
 		};
-		76CB31CB2EBEDB8C0022F207 /* Release */ = {
+		76CB31CB2EBEDB8C0022F207 /* Release configuration for PBXNativeTarget "VerifAIMonitor" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = VerifAIMonitor/VerifAIMonitor.entitlements;
@@ -489,28 +480,25 @@
 		76CB31542EBEC8130022F207 /* Build configuration list for PBXProject "VerifAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				76CB31652EBEC8130022F207 /* Debug */,
-				76CB31662EBEC8130022F207 /* Release */,
+				76CB31652EBEC8130022F207 /* Debug configuration for PBXProject "VerifAI" */,
+				76CB31662EBEC8130022F207 /* Release configuration for PBXProject "VerifAI" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		76CB31672EBEC8130022F207 /* Build configuration list for PBXNativeTarget "VerifAI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				76CB31682EBEC8130022F207 /* Debug */,
-				76CB31692EBEC8130022F207 /* Release */,
+				76CB31682EBEC8130022F207 /* Debug configuration for PBXNativeTarget "VerifAI" */,
+				76CB31692EBEC8130022F207 /* Release configuration for PBXNativeTarget "VerifAI" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		76CB31C92EBEDB8C0022F207 /* Build configuration list for PBXNativeTarget "VerifAIMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				76CB31CA2EBEDB8C0022F207 /* Debug */,
-				76CB31CB2EBEDB8C0022F207 /* Release */,
+				76CB31CA2EBEDB8C0022F207 /* Debug configuration for PBXNativeTarget "VerifAIMonitor" */,
+				76CB31CB2EBEDB8C0022F207 /* Release configuration for PBXNativeTarget "VerifAIMonitor" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
