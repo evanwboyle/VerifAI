@@ -102,9 +102,15 @@ func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, 
     taskList.items.append(task)
 }
 
-func updateTaskWithIteration(task: UserTask, imageData: Data) {
+enum TaskUpdateResult {
+    case passed(isLastIteration: Bool, currentState: String)
+    case failed(currentState: String)
+    case error(String)
+}
+
+func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escaping (TaskUpdateResult) -> Void) {
     guard let iterationIndex = task.iterationSet.firstIndex(where: { $0.currentState == nil }) else {
-        print("No iteration with nil currentState found.")
+        completion(.error("No iteration with nil currentState found."))
         return
     }
     let previousState: String
@@ -122,27 +128,29 @@ func updateTaskWithIteration(task: UserTask, imageData: Data) {
     GrokService.shared.callGrokAPI(message: task.userPrompt, imageData: imageData, systemPrompt: systemPrompt) { result in
         switch result {
         case .success(let output):
-            if let currentState = extractXMLTag(output, tag: "currentstate"),
-               let passed = extractXMLTag(output, tag: "passed") {
+            guard let currentState = extractXMLTag(output, tag: "currentstate"),
+                  let passed = extractXMLTag(output, tag: "passed") else {
+                completion(.error("Failed to extract currentState or passed from Grok API response."))
+                return
+            }
             if passed.lowercased() == "yes" {
-                    task.iterationSet[iterationIndex].currentState = currentState
-                    print("Iteration \(iterationIndex) updated with currentState: \(currentState)")
-                    return true
-                } else if passed.lowercased() == "no" {
-                    print("Iteration \(iterationIndex) did not pass the rubric criteria.")
-                    return false
-                
+                task.iterationSet[iterationIndex].currentState = currentState
+                task.restricting = false
+                if iterationIndex == task.iterationSet.count - 1 {
+                    task.MinsUntilRestricting = -1
+                    completion(.passed(isLastIteration: true, currentState: currentState))
+                } else {
+                    task.startTime = Date()
+                    completion(.passed(isLastIteration: false, currentState: currentState))
                 }
             } else if passed.lowercased() == "no" {
-                print("Iteration \(iterationIndex) did not pass the rubric criteria.")
+                task.restricting = true
+                completion(.failed(currentState: currentState))
             } else {
-                print("Failed to extract currentState or passed from Grok API response.")
+                completion(.error("Invalid value for <passed> tag: \(passed)"))
             }
-               
         case .failure(let error):
-            print("Grok API error: \(error)")
-            // Handle error as needed
+            completion(.error("Grok API error: \(error)"))
         }
     }
-    
 }
