@@ -40,6 +40,9 @@
 		76ED7C1C2EBF10940037E82F /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */; };
 		76ED7C1E2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
 		76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
+		76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C202EBF1E4E0037E82F /* GrokService.swift */; };
+		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
+		76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C252EBF1E820037E82F /* Secrets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +118,9 @@
 		76ED7BEA2EBF08390037E82F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		76ED7C1D2EBF13DE0037E82F /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
+		76ED7C202EBF1E4E0037E82F /* GrokService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrokService.swift; sourceTree = "<group>"; };
+		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		76ED7C252EBF1E820037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +220,7 @@
 				76ED7BE72EBF08390037E82F /* HomeView.swift */,
 				76ED7BE82EBF08390037E82F /* NewTaskView.swift */,
 				76ED7BE92EBF08390037E82F /* RestrictView.swift */,
+				76ED7C212EBF1E4E0037E82F /* Services */,
 				76ED7BEA2EBF08390037E82F /* SettingsView.swift */,
 				41AA52252C07351300786F96 /* ShieldView.swift */,
 			);
@@ -224,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				76ED7C1D2EBF13DE0037E82F /* SharedData.swift */,
+				76ED7C252EBF1E820037E82F /* Secrets.plist */,
 				41AA520A2C07244000786F96 /* Assets.xcassets */,
 				76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */,
 			);
@@ -242,6 +250,7 @@
 		41AA52222C07337500786F96 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				76ED7C232EBF1E620037E82F /* CameraViewModel.swift */,
 				41AA52232C07338300786F96 /* ShieldViewModel.swift */,
 			);
 			path = "View Models";
@@ -285,6 +294,14 @@
 				41AA525A2C074C0B00786F96 /* Device_Activity_Monitor_Extension.entitlements */,
 			);
 			path = "Device Activity Monitor Extension";
+			sourceTree = "<group>";
+		};
+		76ED7C212EBF1E4E0037E82F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				76ED7C202EBF1E4E0037E82F /* GrokService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -412,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */,
 				76ED7C1B2EBF10940037E82F /* SharedAssets.xcassets in Resources */,
 				41AA520E2C07244000786F96 /* Preview Assets.xcassets in Resources */,
 				41AA520B2C07244000786F96 /* Assets.xcassets in Resources */,
@@ -449,6 +467,7 @@
 			files = (
 				76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */,
 				41AA521B2C0724C300786F96 /* Logger.swift in Sources */,
+				76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */,
 				41AA52072C07243F00786F96 /* VerifAIApp.swift in Sources */,
 				41AA52772C075FE600786F96 /* ManagedSettingsStore.swift in Sources */,
 				41AA52262C07351300786F96 /* ShieldView.swift in Sources */,
@@ -457,6 +476,7 @@
 				76ED7BEC2EBF08390037E82F /* CameraView.swift in Sources */,
 				76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */,
 				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
+				76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,
 				76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */,
 			);
