@@ -6,22 +6,21 @@ class UserTask {
     var iterations: Int
     var iterationSet: [Iteration]
     var startTime: Date?
-    var endTime: Date?
-    var active: Bool {
-        return startTime != nil && endTime == nil
-    }
+    var MinsUntilRestricting: Int?
+    var restricting: Bool 
 
-    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date? = nil, endTime: Date? = nil) {
+    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date? = nil, MinsUntilRestricting: Int? = \(defaultTime)) {
         self.userPrompt = userPrompt
         self.rubric = rubric
         self.iterations = iterations
         self.iterationSet = iterationSet
         self.startTime = startTime
-        self.endTime = endTime
+        self.MinsUntilRestricting = MinsUntilRestricting
+        self.restricting = false
     }
     
     var description: String {
-        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime?.description ?? "nil"), endTime: \(endTime?.description ?? "nil"))"
+        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime?.description ?? "nil"), MinsUntilRestricting: \(MinsUntilRestricting ?? 0), restricting: \(restricting))"
     }
 }
 
@@ -62,8 +61,8 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, beforeImage : Data?) {
-    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [])
+func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?) {
+    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], MinsUntilRestricting: MinsUntilRestricting)
     var rubric: String? = nil
     if beforeImage != nil {
         var initialstate: String? = nil
@@ -101,4 +100,49 @@ func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, 
         task.iterationSet.append(Iteration(currentState: nil))
     }
     taskList.items.append(task)
+}
+
+func updateTaskWithIteration(task: UserTask, imageData: Data) {
+    guard let iterationIndex = task.iterationSet.firstIndex(where: { $0.currentState == nil }) else {
+        print("No iteration with nil currentState found.")
+        return
+    }
+    let previousState: String
+    if iterationIndex == 0 {
+        previousState = ""
+    } else {
+        previousState = task.iterationSet[iterationIndex - 1].currentState ?? ""
+    }
+    let systemPrompt: String
+    if previousState.isEmpty {
+        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the current image, respond with two XML tags: <currentstate>, which contains a 1-2 sentence description of the current state of the image, especially as it relates to the rubric, and <passed>, which is either 'yes' or 'no' indicating whether the current state meets the rubric criteria. Since there is no previous state, focus on describing the current state in isolation. Respond with ONLY Yes or no. Never respond with anything else. Be a bit generous."
+    } else {
+        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt, the current image, and the previous state: '\(previousState)', respond with two XML tags: <currentstate>, which contains a 1-2 sentence description of the current state of the image, especially as it relates to the rubric and the progress made from the previous state, and <passed>, which is either 'yes' or 'no' indicating whether the current state meets the rubric criteria. Respond with ONLY Yes or no. Never respond with anything else. Be a bit generous."
+    }
+    GrokService.shared.callGrokAPI(message: task.userPrompt, imageData: imageData, systemPrompt: systemPrompt) { result in
+        switch result {
+        case .success(let output):
+            if let currentState = extractXMLTag(output, tag: "currentstate"),
+               let passed = extractXMLTag(output, tag: "passed") {
+            if passed.lowercased() == "yes" {
+                    task.iterationSet[iterationIndex].currentState = currentState
+                    print("Iteration \(iterationIndex) updated with currentState: \(currentState)")
+                    return true
+                } else if passed.lowercased() == "no" {
+                    print("Iteration \(iterationIndex) did not pass the rubric criteria.")
+                    return false
+                
+                }
+            } else if passed.lowercased() == "no" {
+                print("Iteration \(iterationIndex) did not pass the rubric criteria.")
+            } else {
+                print("Failed to extract currentState or passed from Grok API response.")
+            }
+               
+        case .failure(let error):
+            print("Grok API error: \(error)")
+            // Handle error as needed
+        }
+    }
+    
 }
