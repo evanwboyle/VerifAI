@@ -1,4 +1,7 @@
 import Foundation
+import SwiftUI
+import FamilyControls
+import CoreData
 
 class UserTask {
     var userPrompt: String
@@ -9,7 +12,7 @@ class UserTask {
     var MinsUntilRestricting: Int?
     var restricting: Bool 
 
-    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date? = nil, MinsUntilRestricting: Int? = \(defaultTime)) {
+    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date? = nil, MinsUntilRestricting: Int?) {
         self.userPrompt = userPrompt
         self.rubric = rubric
         self.iterations = iterations
