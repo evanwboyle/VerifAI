@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import PhotosUI // Needed for ImagePicker
 
 struct NewTaskView: View {
     @Environment(\.dismiss) private var dismiss
@@ -15,7 +16,7 @@ struct NewTaskView: View {
     @State private var allowedAppTimeMinutes: Int = 0
 
     @State private var showingImagePicker = false
-    @State private var pickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+    @State private var pickerSourceType: UIImagePickerController.SourceType = .photoLibrary // Can be removed if not needed
     @State private var selectedImage: UIImage? = nil
     @State private var showingSourceChoice = false
 
@@ -80,14 +81,16 @@ struct NewTaskView: View {
                         guard !prompt.isEmpty else { return }
 
                         let beforeData = selectedImage?.jpegData(compressionQuality: 0.85)
-                        // Call TaskModule API (matches signature you added)
-                        addNewTask(
-                            to: sharedTaskList,
+                        // Create the UserTask
+                        let newTask = makeNewTask(
                             userPrompt: prompt,
                             iterations: repetitionsOn ? repetitions : 0,
                             MinsUntilRestricting: taskDurationMinutes,
                             beforeImage: beforeData
                         )
+                        // Save to Core Data
+                        let context = PersistenceController.shared.container.viewContext
+                        saveUserTaskToCoreData(newTask, context: context)
 
                         // feedback for preview + clear form
                         showSavedAlert = true
@@ -109,20 +112,13 @@ struct NewTaskView: View {
                 if allowedAppTimeMinutes == 0 { allowedAppTimeMinutes = defaultAllowedAppTimeMinutes }
             }
             .confirmationDialog("Select Photo Source", isPresented: $showingSourceChoice, titleVisibility: .visible) {
-                if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                    Button("Take Photo") {
-                        pickerSourceType = .camera
-                        showingImagePicker = true
-                    }
-                }
                 Button("Photo Library") {
-                    pickerSourceType = .photoLibrary
                     showingImagePicker = true
                 }
                 Button("Cancel", role: .cancel) { }
             }
             .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(sourceType: pickerSourceType, image: $selectedImage, isPresented: $showingImagePicker)
+                ImagePicker(image: $selectedImage)
                     .ignoresSafeArea()
             }
             .alert("Task saved", isPresented: $showSavedAlert) {
@@ -130,42 +126,6 @@ struct NewTaskView: View {
             } message: {
                 Text("Saved to sharedTaskList (check console).")
             }
-        }
-    }
-}
-
-// Simple UIImagePickerController wrapper
-struct ImagePicker: UIViewControllerRepresentable {
-    let sourceType: UIImagePickerController.SourceType
-    @Binding var image: UIImage?
-    @Binding var isPresented: Bool
-
-    func makeCoordinator() -> Coordinator { Coordinator(self) }
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = sourceType
-        picker.allowsEditing = false
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { }
-
-    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        private let parent: ImagePicker
-        init(_ parent: ImagePicker) { self.parent = parent }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.isPresented = false
-        }
-
-        func imagePickerController(_ picker: UIImagePickerController,
-                                   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let picked = info[.originalImage] as? UIImage {
-                parent.image = picked
-            }
-            parent.isPresented = false
         }
     }
 }

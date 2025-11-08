@@ -27,18 +27,6 @@ class UserTask {
     }
 }
 
-class UserTaskList {
-    var items: [UserTask]
-    
-    init(items: [UserTask] = []) {
-        self.items = items
-    }
-    
-    var description: String {
-        return "TaskList(items: \(items))"
-    }
-}
-
 class Iteration {
     var currentState: String?
     
@@ -64,7 +52,7 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?) {
+func makeNewTask(userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?) -> UserTask {
     let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], MinsUntilRestricting: MinsUntilRestricting)
     var rubric: String? = nil
     if beforeImage != nil {
@@ -102,7 +90,7 @@ func addNewTask(to taskList: UserTaskList, userPrompt: String, iterations: Int, 
     for _ in 1...iterations {
         task.iterationSet.append(Iteration(currentState: nil))
     }
-    taskList.items.append(task)
+    return task
 }
 
 enum TaskUpdateResult {
@@ -155,5 +143,26 @@ func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escap
         case .failure(let error):
             completion(.error("Grok API error: \(error)"))
         }
+    }
+}
+
+func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
+    let newTask = TaskEntity(context: context)
+    newTask.userPrompt = task.userPrompt
+    newTask.rubric = task.rubric
+    newTask.iterations = Int16(task.iterations)
+    newTask.startTime = task.startTime
+    newTask.minsUntilRestricting = task.MinsUntilRestricting != nil ? NSNumber(value: task.MinsUntilRestricting!) : nil
+    newTask.restricting = task.restricting
+    // Serialize iterationSet (array of currentState strings)
+    let iterationStates = task.iterationSet.map { $0.currentState }
+    if let data = try? JSONEncoder().encode(iterationStates) {
+        newTask.iterationSetData = data
+    }
+    do {
+        try context.save()
+        print("UserTask saved to Core Data!")
+    } catch {
+        print("Failed to save UserTask: \(error)")
     }
 }

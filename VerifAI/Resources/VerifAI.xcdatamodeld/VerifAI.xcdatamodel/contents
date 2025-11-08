@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23788.4" systemVersion="24G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="iterations" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="iterationSetData" optional="YES" attributeType="Binary"/>
+        <attribute name="minsUntilRestricting" optional="YES" attributeType="Transformable"/>
+        <attribute name="restricting" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="rubric" optional="YES" attributeType="String"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="userPrompt" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="TaskSettings" representedClassName="TaskSettings" syncable="YES" codeGenerationType="class">
         <attribute name="defaultTimeToComplete" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
