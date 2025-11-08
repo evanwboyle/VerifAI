@@ -6,10 +6,91 @@
 //
 
 import SwiftUI
+import FamilyControls
 
 struct SettingsView: View {
+    @State private var authorizationStatus = "Checking..."
+    @State private var showAuthAlert = false
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    // Family Controls Section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Family Controls")
+                            .font(.headline)
+
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Authorization Status")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text(authorizationStatus)
+                                .font(.body)
+                                .padding(.vertical, 4)
+
+                            Button(action: requestAuthorization) {
+                                HStack {
+                                    Image(systemName: "lock.shield")
+                                    Text("Request Family Controls Authorization")
+                                }
+                                .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                    }
+
+                    Spacer()
+                }
+                .padding()
+            }
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                checkAuthorizationStatus()
+            }
+            .alert("Authorization Result", isPresented: $showAuthAlert) {
+                Button("OK") { }
+            } message: {
+                Text(authorizationStatus)
+            }
+        }
+    }
+
+    private func checkAuthorizationStatus() {
+        let status = AuthorizationCenter.shared.authorizationStatus
+        switch status {
+        case .notDetermined:
+            authorizationStatus = "Not Determined - Tap button to request"
+        case .denied:
+            authorizationStatus = "❌ Denied - Check Settings"
+        case .approved:
+            authorizationStatus = "✅ Approved - Family Controls enabled!"
+        @unknown default:
+            authorizationStatus = "Unknown status"
+        }
+    }
+
+    private func requestAuthorization() {
+        Task {
+            do {
+                try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
+                authorizationStatus = "✅ Approved - Family Controls enabled!"
+                showAuthAlert = true
+            } catch FamilyControlsError.invalidAccountType {
+                authorizationStatus = "❌ Error: Invalid account type (not a child account or needs family setup)"
+                showAuthAlert = true
+            } catch FamilyControlsError.networkError {
+                authorizationStatus = "❌ Error: Network error occurred"
+                showAuthAlert = true
+            } catch {
+                authorizationStatus = "❌ Error: \(error.localizedDescription)"
+                showAuthAlert = true
+            }
+        }
     }
 }
 
