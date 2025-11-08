@@ -20,12 +20,6 @@ struct ContentView: View {
                     Label("Home", systemImage: "house.fill")
                 }
 
-            // Camera Tab
-            CameraView()
-                .tabItem {
-                    Label("Camera", systemImage: "camera.fill")
-                }
-
             // New Task Tab
             NewTaskView()
                 .tabItem {

@@ -31,7 +31,6 @@
 		41AA52792C075FE600786F96 /* ManagedSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA52762C075FE600786F96 /* ManagedSettingsStore.swift */; };
 		41AA527A2C075FE600786F96 /* ManagedSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA52762C075FE600786F96 /* ManagedSettingsStore.swift */; };
 		76ED7BEB2EBF08390037E82F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE62EBF08390037E82F /* ContentView.swift */; };
-		76ED7BEC2EBF08390037E82F /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE52EBF08390037E82F /* CameraView.swift */; };
 		76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE92EBF08390037E82F /* RestrictView.swift */; };
 		76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BEA2EBF08390037E82F /* SettingsView.swift */; };
 		76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE82EBF08390037E82F /* NewTaskView.swift */; };
@@ -41,7 +40,6 @@
 		76ED7C1E2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
 		76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
 		76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C202EBF1E4E0037E82F /* GrokService.swift */; };
-		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
 		76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C272EBF96890037E82F /* ImagePicker.swift */; };
 		76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2C2EBFB5930037E82F /* TaskModule.swift */; };
 		76ED7C302EBFB77F0037E82F /* VerifAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */; };
@@ -115,7 +113,6 @@
 		41AA52592C074C0B00786F96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41AA525A2C074C0B00786F96 /* Device_Activity_Monitor_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Device_Activity_Monitor_Extension.entitlements; sourceTree = "<group>"; };
 		41AA52762C075FE600786F96 /* ManagedSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedSettingsStore.swift; sourceTree = "<group>"; };
-		76ED7BE52EBF08390037E82F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		76ED7BE62EBF08390037E82F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		76ED7BE72EBF08390037E82F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		76ED7BE82EBF08390037E82F /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
@@ -124,7 +121,6 @@
 		76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		76ED7C1D2EBF13DE0037E82F /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		76ED7C202EBF1E4E0037E82F /* GrokService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrokService.swift; sourceTree = "<group>"; };
-		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		76ED7C272EBF96890037E82F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		76ED7C2C2EBFB5930037E82F /* TaskModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModule.swift; sourceTree = "<group>"; };
 		76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VerifAI.xcdatamodel; sourceTree = "<group>"; };
@@ -226,7 +222,6 @@
 		41AA52152C07245500786F96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				76ED7BE52EBF08390037E82F /* CameraView.swift */,
 				76ED7BE62EBF08390037E82F /* ContentView.swift */,
 				76ED7BE72EBF08390037E82F /* HomeView.swift */,
 				76ED7BE82EBF08390037E82F /* NewTaskView.swift */,
@@ -261,7 +256,6 @@
 		41AA52222C07337500786F96 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				76ED7C232EBF1E620037E82F /* CameraViewModel.swift */,
 				41AA52232C07338300786F96 /* ShieldViewModel.swift */,
 			);
 			path = "View Models";
@@ -497,11 +491,9 @@
 				41AA52242C07338300786F96 /* ShieldViewModel.swift in Sources */,
 				76ED7BEB2EBF08390037E82F /* ContentView.swift in Sources */,
 				76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */,
-				76ED7BEC2EBF08390037E82F /* CameraView.swift in Sources */,
 				76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */,
 				76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */,
 				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
-				76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */,
 				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,
 				76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */,
