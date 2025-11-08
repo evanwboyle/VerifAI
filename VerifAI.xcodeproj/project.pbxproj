@@ -44,6 +44,7 @@
 		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
 		76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C252EBF1E820037E82F /* Secrets.plist */; };
 		76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C272EBF96890037E82F /* ImagePicker.swift */; };
+		76ED7C2B2EBFA30A0037E82F /* TaskSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C292EBFA30A0037E82F /* TaskSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		76ED7C252EBF1E820037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		76ED7C272EBF96890037E82F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		76ED7C292EBFA30A0037E82F /* TaskSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 				41AA52152C07245500786F96 /* Views */,
 				41AA52172C07245E00786F96 /* Resources */,
 				41AA520C2C07244000786F96 /* Preview Content */,
+				76ED7C2A2EBFA30A0037E82F /* Models */,
 			);
 			path = VerifAI;
 			sourceTree = "<group>";
@@ -305,6 +308,14 @@
 				76ED7C272EBF96890037E82F /* ImagePicker.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		76ED7C2A2EBFA30A0037E82F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				76ED7C292EBFA30A0037E82F /* TaskSettings.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,6 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */,
+				76ED7C2B2EBFA30A0037E82F /* TaskSettings.swift in Sources */,
 				41AA521B2C0724C300786F96 /* Logger.swift in Sources */,
 				76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */,
 				41AA52072C07243F00786F96 /* VerifAIApp.swift in Sources */,
@@ -590,7 +602,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -647,7 +659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
