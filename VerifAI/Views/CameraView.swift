@@ -66,26 +66,53 @@ struct CameraView: View {
                 }
 
                 // Input Area
-                HStack(spacing: 8) {
-                    TextField("Type a message...", text: $viewModel.messageInput)
-                        .textFieldStyle(.roundedBorder)
-                        .disabled(viewModel.isLoading)
-
-                    if viewModel.isLoading {
-                        ProgressView()
-                            .frame(width: 36, height: 36)
-                    } else {
-                        Button(action: viewModel.sendMessage) {
-                            Image(systemName: "paperplane.fill")
-                                .foregroundColor(.white)
-                                .frame(width: 36, height: 36)
-                                .background(Color.blue)
-                                .clipShape(Circle())
+                VStack(spacing: 8) {
+                    if let selectedImage = viewModel.selectedImage {
+                        Image(uiImage: selectedImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 120)
+                            .cornerRadius(12)
+                            .padding(.bottom, 4)
+                        Button("Remove Image") {
+                            viewModel.selectedImage = nil
                         }
-                        .disabled(viewModel.messageInput.trimmingCharacters(in: .whitespaces).isEmpty)
+                        .font(.caption)
+                        .foregroundColor(.red)
+                    } else {
+                        Button(action: { viewModel.showImagePicker = true }) {
+                            HStack {
+                                Image(systemName: "photo")
+                                Text("Add Image")
+                            }
+                            .padding(8)
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(8)
+                        }
+                    }
+                    HStack(spacing: 8) {
+                        TextField("Type a message...", text: $viewModel.messageInput)
+                            .textFieldStyle(.roundedBorder)
+                            .disabled(viewModel.isLoading)
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .frame(width: 36, height: 36)
+                        } else {
+                            Button(action: viewModel.sendMessage) {
+                                Image(systemName: "paperplane.fill")
+                                    .foregroundColor(.white)
+                                    .frame(width: 36, height: 36)
+                                    .background(Color.blue)
+                                    .clipShape(Circle())
+                            }
+                            .disabled(viewModel.messageInput.trimmingCharacters(in: .whitespaces).isEmpty && viewModel.selectedImage == nil)
+                        }
                     }
                 }
                 .padding()
+                .sheet(isPresented: $viewModel.showImagePicker) {
+                    ImagePicker(image: $viewModel.selectedImage)
+                }
             }
             .navigationTitle("Grok Chat")
             .navigationBarTitleDisplayMode(.inline)

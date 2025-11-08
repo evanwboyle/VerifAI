@@ -1,14 +1,17 @@
 import Foundation
 import Combine
+import UIKit
 
 class CameraViewModel: ObservableObject {
     @Published var messageInput: String = ""
     @Published var chatMessages: [ChatMessage] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var selectedImage: UIImage? = nil
+    @Published var showImagePicker: Bool = false
 
     func sendMessage() {
-        guard !messageInput.trimmingCharacters(in: .whitespaces).isEmpty else {
+        guard !messageInput.trimmingCharacters(in: .whitespaces).isEmpty || selectedImage != nil else {
             return
         }
 
@@ -21,7 +24,10 @@ class CameraViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        GrokService.shared.callGrokAPI(message: userMessage) { [weak self] result in
+        let imageData = selectedImage?.jpegData(compressionQuality: 0.8)
+        selectedImage = nil
+
+        GrokService.shared.callGrokAPI(message: userMessage, imageData: imageData) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isLoading = false
 

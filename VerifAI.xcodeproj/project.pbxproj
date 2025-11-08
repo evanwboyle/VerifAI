@@ -43,6 +43,7 @@
 		76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C202EBF1E4E0037E82F /* GrokService.swift */; };
 		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
 		76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C252EBF1E820037E82F /* Secrets.plist */; };
+		76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C272EBF96890037E82F /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		76ED7C202EBF1E4E0037E82F /* GrokService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrokService.swift; sourceTree = "<group>"; };
 		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		76ED7C252EBF1E820037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		76ED7C272EBF96890037E82F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				76ED7C202EBF1E4E0037E82F /* GrokService.swift */,
+				76ED7C272EBF96890037E82F /* ImagePicker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */,
 				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
 				76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */,
+				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,
 				76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */,
 			);
