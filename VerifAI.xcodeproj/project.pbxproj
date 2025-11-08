@@ -46,6 +46,8 @@
 		76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C312EBFB8660037E82F /* PersistenceController.swift */; };
 		76ED7C362EBFFF0B0037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C352EBFFF0B0037E82F /* Secrets.plist */; };
 		76ED7C372EBFFF0B0037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C352EBFFF0B0037E82F /* Secrets.plist */; };
+		76ED7C392EC005AF0037E82F /* SubmitIterationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */; };
+		76ED7C3B2EC007020037E82F /* TaskTabSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +128,8 @@
 		76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VerifAI.xcdatamodel; sourceTree = "<group>"; };
 		76ED7C312EBFB8660037E82F /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		76ED7C352EBFFF0B0037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
+		76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitIterationView.swift; sourceTree = "<group>"; };
+		76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabSwitcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,12 +227,14 @@
 			isa = PBXGroup;
 			children = (
 				76ED7BE62EBF08390037E82F /* ContentView.swift */,
+				76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */,
 				76ED7BE72EBF08390037E82F /* HomeView.swift */,
 				76ED7BE82EBF08390037E82F /* NewTaskView.swift */,
 				76ED7BE92EBF08390037E82F /* RestrictView.swift */,
 				76ED7C212EBF1E4E0037E82F /* Services */,
 				76ED7BEA2EBF08390037E82F /* SettingsView.swift */,
 				41AA52252C07351300786F96 /* ShieldView.swift */,
+				76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -482,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */,
+				76ED7C392EC005AF0037E82F /* SubmitIterationView.swift in Sources */,
 				41AA521B2C0724C300786F96 /* Logger.swift in Sources */,
 				76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */,
 				41AA52072C07243F00786F96 /* VerifAIApp.swift in Sources */,
@@ -495,6 +502,7 @@
 				76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */,
 				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
 				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
+				76ED7C3B2EC007020037E82F /* TaskTabSwitcher.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,
 				76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */,
 			);

@@ -8,11 +8,11 @@ class UserTask {
     var rubric: String?
     var iterations: Int
     var iterationSet: [Iteration]
-    var startTime: Date?
+    var startTime: Date
     var MinsUntilRestricting: Int?
     var restricting: Bool 
 
-    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date? = nil, MinsUntilRestricting: Int?) {
+    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date, MinsUntilRestricting: Int?) {
         self.userPrompt = userPrompt
         self.rubric = rubric
         self.iterations = iterations
@@ -23,7 +23,7 @@ class UserTask {
     }
     
     var description: String {
-        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime?.description ?? "nil"), MinsUntilRestricting: \(MinsUntilRestricting ?? 0), restricting: \(restricting))"
+        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime.description ?? "nil"), MinsUntilRestricting: \(MinsUntilRestricting ?? 0), restricting: \(restricting))"
     }
 }
 
@@ -53,7 +53,7 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
 }
 
 func makeNewTask(userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?, completion: @escaping (UserTask) -> Void) {
-    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], MinsUntilRestricting: MinsUntilRestricting)
+    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], startTime: Date(), MinsUntilRestricting: MinsUntilRestricting)
     if beforeImage != nil {
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the initial image, respond with two XML tags: <rubric> (a short guideline for measuring progress towards the user's goal) and <initialstate> (a 1-2 sentence description of the initial state of the image, especially as it relates to the rubric)."
         GrokService.shared.callGrokAPI(message: userPrompt, imageData: beforeImage, systemPrompt: systemPrompt) { result in
@@ -149,20 +149,30 @@ func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escap
 }
 
 func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
-    let newTask = TaskEntity(context: context)
-    newTask.userPrompt = task.userPrompt
-    newTask.rubric = task.rubric // Already optional
-    newTask.iterations = Int16(task.iterations)
-    newTask.startTime = task.startTime // Already optional
+    // Fetch existing TaskEntity (singleton pattern)
+    let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+    fetchRequest.fetchLimit = 1
+    let existingTask: TaskEntity?
+    do {
+        existingTask = try context.fetch(fetchRequest).first
+    } catch {
+        print("Failed to fetch TaskEntity: \(error)")
+        existingTask = nil
+    }
+    let taskEntity = existingTask ?? TaskEntity(context: context)
+    taskEntity.userPrompt = task.userPrompt
+    taskEntity.rubric = task.rubric // Already optional
+    taskEntity.iterations = Int16(task.iterations)
+    taskEntity.startTime = task.startTime // Already optional
     // Optional handling for minsUntilRestricting (Int16 cannot be nil)
-    newTask.minsUntilRestricting = Int16(task.MinsUntilRestricting ?? -1)
-    newTask.restricting = task.restricting
+    taskEntity.minsUntilRestricting = Int16(task.MinsUntilRestricting ?? -1)
+    taskEntity.restricting = task.restricting
     // Serialize iterationSet (array of currentState strings)
     let iterationStates = task.iterationSet.map { $0.currentState }
     if let data = try? JSONEncoder().encode(iterationStates) {
-        newTask.iterationSetData = data
+        taskEntity.iterationSetData = data
     } else {
-        newTask.iterationSetData = nil
+        taskEntity.iterationSetData = nil
     }
     do {
         try context.save()

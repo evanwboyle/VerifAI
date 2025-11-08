@@ -20,8 +20,8 @@ struct ContentView: View {
                     Label("Home", systemImage: "house.fill")
                 }
 
-            // New Task Tab
-            NewTaskView()
+            // Task Tab
+            TaskTabSwitcher()
                 .tabItem {
                     Label("Task", systemImage: "plus.circle.fill")
                 }
