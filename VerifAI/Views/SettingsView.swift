@@ -122,18 +122,22 @@ struct SettingsView: View {
     private func loadDefaultTime() {
         if let first = settings.first {
             defaultTime = first.defaultTimeToComplete
+            print("SettingsView: Loaded defaultTimeToComplete =", defaultTime)
         } else {
             let newSettings = TaskSettings(defaultTimeToComplete: defaultTime)
             modelContext.insert(newSettings)
+            print("SettingsView: Created new TaskSettings with defaultTimeToComplete =", defaultTime)
         }
     }
 
     private func updateDefaultTime(_ newValue: Int) {
         if let first = settings.first {
             first.defaultTimeToComplete = newValue
+            print("SettingsView: Updated defaultTimeToComplete to", newValue)
         } else {
             let newSettings = TaskSettings(defaultTimeToComplete: newValue)
             modelContext.insert(newSettings)
+            print("SettingsView: Created new TaskSettings with defaultTimeToComplete =", newValue)
         }
     }
 }
