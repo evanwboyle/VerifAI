@@ -81,24 +81,23 @@ struct NewTaskView: View {
                         guard !prompt.isEmpty else { return }
 
                         let beforeData = selectedImage?.jpegData(compressionQuality: 0.85)
-                        // Create the UserTask
-                        let newTask = makeNewTask(
+                        // Create the UserTask asynchronously
+                        makeNewTask(
                             userPrompt: prompt,
-                            iterations: repetitionsOn ? repetitions : 0,
+                            iterations: repetitionsOn ? repetitions : 1,
                             MinsUntilRestricting: taskDurationMinutes,
                             beforeImage: beforeData
-                        )
-                        // Save to Core Data
-                        let context = PersistenceController.shared.container.viewContext
-                        saveUserTaskToCoreData(newTask, context: context)
-
-                        // feedback for preview + clear form
-                        showSavedAlert = true
-                        taskText = ""
-                        repetitionsOn = false
-                        repetitions = 1
-                        selectedImage = nil
-                        beforePicOn = false
+                        ) { newTask in
+                            let context = PersistenceController.shared.container.viewContext
+                            saveUserTaskToCoreData(newTask, context: context)
+                            // feedback for preview + clear form
+                            showSavedAlert = true
+                            taskText = ""
+                            repetitionsOn = false
+                            repetitions = 1
+                            selectedImage = nil
+                            beforePicOn = false
+                        }
                     }
 
                     Button("Cancel", role: .cancel) {

@@ -52,45 +52,47 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func makeNewTask(userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?) -> UserTask {
+func makeNewTask(userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?, completion: @escaping (UserTask) -> Void) {
     let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], MinsUntilRestricting: MinsUntilRestricting)
-    var rubric: String? = nil
     if beforeImage != nil {
-        var initialstate: String? = nil
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the initial image, respond with two XML tags: <rubric> (a short guideline for measuring progress towards the user's goal) and <initialstate> (a 1-2 sentence description of the initial state of the image, especially as it relates to the rubric)."
         GrokService.shared.callGrokAPI(message: userPrompt, imageData: beforeImage, systemPrompt: systemPrompt) { result in
             switch result {
             case .success(let output):
-                rubric = extractXMLTag(output, tag: "rubric")
-                initialstate = extractXMLTag(output, tag: "initialstate")
-                if let rubric = rubric, let initialstate = initialstate {
+                let rubric = extractXMLTag(output, tag: "rubric")
+                let initialstate = extractXMLTag(output, tag: "initialstate")
+                if let rubric = rubric {
                     task.rubric = rubric
+                }
+                if let initialstate = initialstate {
                     task.iterationSet.append(Iteration(currentState: initialstate))
                 }
             case .failure(let error):
                 print("Grok API error: \(error)")
-                // Handle error as needed
             }
+            for _ in 1...iterations {
+                task.iterationSet.append(Iteration(currentState: nil))
+            }
+            completion(task)
         }
     } else {
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt, respond with one XML tag: <rubric>, which contains a short guideline for measuring progress towards the user's goal."
         GrokService.shared.callGrokAPI(message: userPrompt, systemPrompt: systemPrompt) { result in
             switch result {
             case .success(let output):
-                rubric = extractXMLTag(output, tag: "rubric")
+                let rubric = extractXMLTag(output, tag: "rubric")
                 if let rubric = rubric {
                     task.rubric = rubric
                 }
             case .failure(let error):
                 print("Grok API error: \(error)")
-                // Handle error as needed
             }
+            for _ in 1...iterations {
+                task.iterationSet.append(Iteration(currentState: nil))
+            }
+            completion(task)
         }
     }
-    for _ in 1...iterations {
-        task.iterationSet.append(Iteration(currentState: nil))
-    }
-    return task
 }
 
 enum TaskUpdateResult {
