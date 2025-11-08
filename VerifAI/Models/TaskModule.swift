@@ -149,15 +149,22 @@ func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escap
 func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
     let newTask = TaskEntity(context: context)
     newTask.userPrompt = task.userPrompt
-    newTask.rubric = task.rubric
+    newTask.rubric = task.rubric // Already optional
     newTask.iterations = Int16(task.iterations)
-    newTask.startTime = task.startTime
-    newTask.minsUntilRestricting = task.MinsUntilRestricting != nil ? NSNumber(value: task.MinsUntilRestricting!) : nil
+    newTask.startTime = task.startTime // Already optional
+    // Optional handling for minsUntilRestricting
+    if let mins = task.MinsUntilRestricting {
+        newTask.minsUntilRestricting = NSNumber(value: mins)
+    } else {
+        newTask.minsUntilRestricting = nil
+    }
     newTask.restricting = task.restricting
     // Serialize iterationSet (array of currentState strings)
     let iterationStates = task.iterationSet.map { $0.currentState }
     if let data = try? JSONEncoder().encode(iterationStates) {
         newTask.iterationSetData = data
+    } else {
+        newTask.iterationSetData = nil
     }
     do {
         try context.save()

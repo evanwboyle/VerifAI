@@ -3,7 +3,7 @@
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
         <attribute name="iterations" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="iterationSetData" optional="YES" attributeType="Binary"/>
-        <attribute name="minsUntilRestricting" optional="YES" attributeType="Transformable"/>
+        <attribute name="minsUntilRestricting" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="restricting" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="rubric" optional="YES" attributeType="String"/>
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
