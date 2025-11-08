@@ -152,12 +152,8 @@ func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
     newTask.rubric = task.rubric // Already optional
     newTask.iterations = Int16(task.iterations)
     newTask.startTime = task.startTime // Already optional
-    // Optional handling for minsUntilRestricting
-    if let mins = task.MinsUntilRestricting {
-        newTask.minsUntilRestricting = NSNumber(value: mins)
-    } else {
-        newTask.minsUntilRestricting = nil
-    }
+    // Optional handling for minsUntilRestricting (Int16 cannot be nil)
+    newTask.minsUntilRestricting = Int16(task.MinsUntilRestricting ?? -1)
     newTask.restricting = task.restricting
     // Serialize iterationSet (array of currentState strings)
     let iterationStates = task.iterationSet.map { $0.currentState }

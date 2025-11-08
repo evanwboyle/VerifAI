@@ -42,11 +42,12 @@
 		76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
 		76ED7C222EBF1E4E0037E82F /* GrokService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C202EBF1E4E0037E82F /* GrokService.swift */; };
 		76ED7C242EBF1E620037E82F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C232EBF1E620037E82F /* CameraViewModel.swift */; };
-		76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C252EBF1E820037E82F /* Secrets.plist */; };
 		76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C272EBF96890037E82F /* ImagePicker.swift */; };
 		76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2C2EBFB5930037E82F /* TaskModule.swift */; };
 		76ED7C302EBFB77F0037E82F /* VerifAI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */; };
 		76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C312EBFB8660037E82F /* PersistenceController.swift */; };
+		76ED7C362EBFFF0B0037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C352EBFFF0B0037E82F /* Secrets.plist */; };
+		76ED7C372EBFFF0B0037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C352EBFFF0B0037E82F /* Secrets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,11 +125,11 @@
 		76ED7C1D2EBF13DE0037E82F /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		76ED7C202EBF1E4E0037E82F /* GrokService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrokService.swift; sourceTree = "<group>"; };
 		76ED7C232EBF1E620037E82F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
-		76ED7C252EBF1E820037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		76ED7C272EBF96890037E82F /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		76ED7C2C2EBFB5930037E82F /* TaskModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModule.swift; sourceTree = "<group>"; };
 		76ED7C2F2EBFB77F0037E82F /* VerifAI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VerifAI.xcdatamodel; sourceTree = "<group>"; };
 		76ED7C312EBFB8660037E82F /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		76ED7C352EBFFF0B0037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,8 +241,8 @@
 		41AA52172C07245E00786F96 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76ED7C352EBFFF0B0037E82F /* Secrets.plist */,
 				76ED7C1D2EBF13DE0037E82F /* SharedData.swift */,
-				76ED7C252EBF1E820037E82F /* Secrets.plist */,
 				41AA520A2C07244000786F96 /* Assets.xcassets */,
 				76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */,
 			);
@@ -449,7 +450,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76ED7C262EBF1E820037E82F /* Secrets.plist in Resources */,
+				76ED7C362EBFFF0B0037E82F /* Secrets.plist in Resources */,
 				76ED7C1B2EBF10940037E82F /* SharedAssets.xcassets in Resources */,
 				41AA520E2C07244000786F96 /* Preview Assets.xcassets in Resources */,
 				41AA520B2C07244000786F96 /* Assets.xcassets in Resources */,
@@ -467,6 +468,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C372EBFFF0B0037E82F /* Secrets.plist in Resources */,
 				76ED7C1C2EBF10940037E82F /* SharedAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
