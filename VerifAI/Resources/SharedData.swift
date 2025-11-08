@@ -1,13 +1,22 @@
+import Foundation
+//
+//  SharedData.swift
+//  VerifAI
+//
+//  Created by Evan Boyle on 11/8/25.
+//
+
+
 class SharedData {
-    static let defaultsGroup: UserDefaults? = UserDefaults(suiteName: "group.com.b4k3r.FirebaseTest.sharedData")
+    static let defaultsGroup: UserDefaults? = UserDefaults(suiteName: "group.com.verifai.screentime.sharedData")
     
-    enum Keys: String {
-        case isUserPremium = "isUserPremiumKey"
-        
-        var key: String {
-            switch self {
-            default: self.rawValue
-            }
+    static var activeTask: Bool {
+        get {
+            return defaultsGroup?.bool(forKey: "activeTask") ?? false
+        }
+        set {
+            defaultsGroup?.set(newValue, forKey: "activeTask")
         }
     }
-}
+    }
+

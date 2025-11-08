@@ -23,10 +23,10 @@ class ShieldActionExtension: ShieldActionDelegate {
         // Handle the action as needed.
         switch action {
         case .primaryButtonPressed:
+            completionHandler(.close)
+        case .secondaryButtonPressed:
             store.shield.applications?.remove(application)
             completionHandler(.none)
-        case .secondaryButtonPressed:
-            completionHandler(.close)
         @unknown default:
             fatalError()
         }
@@ -41,10 +41,10 @@ class ShieldActionExtension: ShieldActionDelegate {
         // Handle the action as needed.
         switch action {
         case .primaryButtonPressed:
+            completionHandler(.close)
+        case .secondaryButtonPressed:
             store.shield.applicationCategories = nil
             completionHandler(.none)
-        case .secondaryButtonPressed:
-            completionHandler(.close)
         @unknown default:
             fatalError()
         }

@@ -36,6 +36,10 @@
 		76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BEA2EBF08390037E82F /* SettingsView.swift */; };
 		76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE82EBF08390037E82F /* NewTaskView.swift */; };
 		76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE72EBF08390037E82F /* HomeView.swift */; };
+		76ED7C1B2EBF10940037E82F /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */; };
+		76ED7C1C2EBF10940037E82F /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */; };
+		76ED7C1E2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
+		76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C1D2EBF13DE0037E82F /* SharedData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,8 @@
 		76ED7BE82EBF08390037E82F /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
 		76ED7BE92EBF08390037E82F /* RestrictView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictView.swift; sourceTree = "<group>"; };
 		76ED7BEA2EBF08390037E82F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
+		76ED7C1D2EBF13DE0037E82F /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,7 +223,9 @@
 		41AA52172C07245E00786F96 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				76ED7C1D2EBF13DE0037E82F /* SharedData.swift */,
 				41AA520A2C07244000786F96 /* Assets.xcassets */,
+				76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C1B2EBF10940037E82F /* SharedAssets.xcassets in Resources */,
 				41AA520E2C07244000786F96 /* Preview Assets.xcassets in Resources */,
 				41AA520B2C07244000786F96 /* Assets.xcassets in Resources */,
 			);
@@ -420,6 +429,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C1C2EBF10940037E82F /* SharedAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +447,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C1F2EBF13DE0037E82F /* SharedData.swift in Sources */,
 				41AA521B2C0724C300786F96 /* Logger.swift in Sources */,
 				41AA52072C07243F00786F96 /* VerifAIApp.swift in Sources */,
 				41AA52772C075FE600786F96 /* ManagedSettingsStore.swift in Sources */,
@@ -465,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76ED7C1E2EBF13DE0037E82F /* SharedData.swift in Sources */,
 				41AA52462C07386F00786F96 /* ShieldConfigurationExtension.swift in Sources */,
 				41AA52792C075FE600786F96 /* ManagedSettingsStore.swift in Sources */,
 				41AA526E2C0757C100786F96 /* Logger.swift in Sources */,
