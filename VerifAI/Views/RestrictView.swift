@@ -61,18 +61,21 @@ struct RestrictView: View {
 // MARK: - UI Sections
 private extension RestrictView {
     var restrictionStatusCard: some View {
-        VStack(alignment: .center, spacing: 8) {
-            HStack {
-                Image(systemName: manager.isMonitoring ? "shield.fill" : "shield")
-                    .foregroundColor(manager.isMonitoring ? buttonColor : .gray)
+        HStack(alignment: .center, spacing: 16) {
+            Image(systemName: manager.isMonitoring ? "shield.fill" : "shield")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 48, height: 48)
+                .foregroundColor(manager.isMonitoring ? buttonColor : .gray)
+            
+            VStack(alignment: .leading, spacing: 8) {
                 Text("Restriction Status")
                     .font(.headline)
                     .foregroundColor(.white)
+                Text(statusMessage)
+                    .font(.body)
+                    .foregroundColor(.white.opacity(0.8))
             }
-            Text(statusMessage)
-                .font(.body)
-                .foregroundColor(.white.opacity(0.8))
-                .padding(.vertical, 8)
         }
         .padding()
         .background(Color.white.opacity(0.1))

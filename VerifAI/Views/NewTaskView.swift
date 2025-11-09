@@ -54,6 +54,9 @@ struct NewTaskView: View {
     @State private var showingSourceChoice = false
 
     @State private var showSavedAlert = false
+    @State private var isSaving: Bool = false // Spinner state
+    @State private var taskSaved: Bool = false // Track if task is saved
+    @State private var showSubmitIteration: Bool = false // Track navigation to SubmitIterationView
 
     var body: some View {
         NavigationStack {
@@ -77,15 +80,62 @@ struct NewTaskView: View {
                     .cornerRadius(12)
 
                     // Card: Repetitions & Photo
-                    VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .center, spacing: 16) { // Changed alignment to .center
                         HStack {
                             Button {
                                 showingSourceChoice = true
                             } label: {
-                                Label("Add Before Photo (Optional)", systemImage: "camera")
+                                VStack {
+                                    if let _ = selectedImage {
+                                        Image(systemName: "camera")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40) // Adjust size as needed
+                                            .foregroundColor(.verifAIAccent)
+                                            .frame(maxWidth: .infinity, alignment: .center) // Center image horizontally
+                                        Text("Change Photo")
+                                            .font(.headline)
+                                            .foregroundColor(.verifAIAccent)
+                                            .frame(maxWidth: .infinity, alignment: .center) // Center text horizontally
+                                    } else {
+                                        Image(systemName: "camera")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 40, height: 40) // Adjust size as needed
+                                            .foregroundColor(.verifAIAccent)
+                                            .frame(maxWidth: 250, alignment: .center) // Center image horizontally
+                                        Text("Add Before Photo (Optional)")
+                                            .font(.headline)
+                                            .foregroundColor(.verifAIAccent)
+                                            .frame(maxWidth: 250, alignment: .center)
+                                            .multilineTextAlignment(.center) // Center text alignment
+                                    }
+                                }
                             }
-                            .buttonStyle(.borderedProminent)
-                            .tint(.verifAIAccent)
+                            .buttonStyle(.plain)
+                            .foregroundColor(.verifAIAccent)
+                            .frame(width: 200) // Restrict button width
+                        }
+                        
+                        if let image = selectedImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200) // Match button width
+                                .cornerRadius(12)
+                                .padding(.top, 8)
+                            
+                            Button(action: {
+                                selectedImage = nil
+                            }) {
+                                Label("Remove Photo", systemImage: "trash")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                            }
+                            .padding()
+                            .background(Color.verifAIBackground)
+                            .foregroundColor(.verifAIText)
+                            .cornerRadius(10)
                         }
                     }
                     .padding()
@@ -94,50 +144,77 @@ struct NewTaskView: View {
 
                     // Card: Save/Cancel
                     VStack(spacing: 12) {
-                        Button(action: {
-                            let prompt = taskText.trimmingCharacters(in: .whitespacesAndNewlines)
-                            guard !prompt.isEmpty else { return }
-                            let beforeData = selectedImage?.jpegData(compressionQuality: 0.85)
-                            makeNewTask(
-                                userPrompt: prompt,
-                                iterations: repetitionsOn ? repetitions : 1,
-                                beforeImage: beforeData
-                            ) { newTask in
-                                let context = PersistenceController.shared.container.viewContext
-                                saveUserTaskToCoreData(newTask, context: context)
-
-                                // Start restricting apps if any are selected
-                                if !manager.familyActivitySelection.applications.isEmpty ||
-                                   !manager.familyActivitySelection.categories.isEmpty {
-                                    manager.shieldActivities()
-                                    manager.isMonitoring = true
-                                }
-
-                                showSavedAlert = true
-                                taskText = ""
-                                repetitionsOn = false
-                                repetitions = 1
-                                selectedImage = nil
-                                beforePicOn = false
+                        if isSaving {
+                            HStack {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .verifAIText))
+                                Text("Retrieving Model Response")
+                                    .foregroundColor(.verifAIText)
+                                    .font(.headline)
                             }
-                        }) {
-                            Label("Save Task", systemImage: "checkmark.circle.fill")
-                                .font(.headline)
-                                .frame(maxWidth: .infinity)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.verifAIAccent)
+                            .cornerRadius(10)
+                        } else {
+                            Button(action: {
+                                isSaving = true
+                                let prompt = taskText.trimmingCharacters(in: .whitespacesAndNewlines)
+                                guard !prompt.isEmpty else { isSaving = false; return }
+                                let beforeData = selectedImage?.jpegData(compressionQuality: 0.85)
+                                makeNewTask(
+                                    userPrompt: prompt,
+                                    iterations: repetitionsOn ? repetitions : 1,
+                                    beforeImage: beforeData
+                                ) { newTask in
+                                    let context = PersistenceController.shared.container.viewContext
+                                    saveUserTaskToCoreData(newTask, context: context)
+
+                                    if !manager.familyActivitySelection.applications.isEmpty ||
+                                       !manager.familyActivitySelection.categories.isEmpty {
+                                        manager.shieldActivities()
+                                        manager.isMonitoring = true
+                                    }
+
+                                    showSavedAlert = true
+                                    taskText = ""
+                                    repetitionsOn = false
+                                    repetitions = 1
+                                    selectedImage = nil
+                                    beforePicOn = false
+                                }
+                            }) {
+                                if taskSaved {
+                                    Text("Task Saved")
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity)
+                                } else {
+                                    Label("Save Task", systemImage: "checkmark.circle.fill")
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity)
+                                }
+                            }
+                            .padding()
+                            .background(Color.verifAIAccent)
+                            .foregroundColor(.verifAIText)
+                            .cornerRadius(10)
+                            .disabled(taskSaved) // Gray out after saved
                         }
-                        .padding()
-                        .background(Color.verifAIAccent)
-                        .foregroundColor(.verifAIText)
-                        .cornerRadius(10)
-                        Button("Cancel", role: .cancel) {
-                            dismiss()
-                        }
-                        .padding()
-                        .background(Color.white.opacity(0.2))
-                        .foregroundColor(.verifAIText)
-                        .cornerRadius(10)
                     }
                     .padding(.horizontal)
+                    .onChange(of: showSavedAlert) { newValue in
+                        if newValue {
+                            isSaving = false
+                            taskSaved = true
+                            showSubmitIteration = true // Trigger navigation
+                        }
+                    }
+                    .background(
+                        NavigationLink(destination: SubmitIterationView(), isActive: $showSubmitIteration) {
+                            EmptyView()
+                        }
+                        .hidden()
+                    )
                 }
                 .padding(.vertical)
             }
