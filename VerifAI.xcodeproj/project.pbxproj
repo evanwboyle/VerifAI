@@ -130,6 +130,7 @@
 		76ED7C352EBFFF0B0037E82F /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitIterationView.swift; sourceTree = "<group>"; };
 		76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabSwitcher.swift; sourceTree = "<group>"; };
+		76ED7C3C2EC0155E0037E82F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +195,7 @@
 		41AA52052C07243F00786F96 /* VerifAI */ = {
 			isa = PBXGroup;
 			children = (
+				76ED7C3C2EC0155E0037E82F /* Info.plist */,
 				41AA52272C0735A800786F96 /* VerifAI.entitlements */,
 				76ED7C2E2EBFB77F0037E82F /* VerifAI.xcdatamodeld */,
 				41AA52142C07245100786F96 /* App */,
@@ -692,6 +694,7 @@
 				DEVELOPMENT_TEAM = NK8AYRW483;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VerifAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VerifAI;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -724,6 +727,7 @@
 				DEVELOPMENT_TEAM = NK8AYRW483;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VerifAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VerifAI;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
