@@ -16,7 +16,6 @@ struct RestrictView: View {
     
     // MARK: - Restriction State
     @State private var showActivityPicker = false
-    @State private var isMonitoring = false
     @State private var statusMessage = "Not restricting."
     
     // MARK: - Settings State
@@ -38,6 +37,7 @@ struct RestrictView: View {
                     restrictionControlButtons
                     familyControlsSection
                     defaultTaskSettingsSection
+                    resetDataSection
                     Spacer()
                 }
                 .padding()
@@ -61,10 +61,10 @@ struct RestrictView: View {
 // MARK: - UI Sections
 private extension RestrictView {
     var restrictionStatusCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .center, spacing: 8) {
             HStack {
-                Image(systemName: isMonitoring ? "shield.fill" : "shield")
-                    .foregroundColor(isMonitoring ? buttonColor : .gray)
+                Image(systemName: manager.isMonitoring ? "shield.fill" : "shield")
+                    .foregroundColor(manager.isMonitoring ? buttonColor : .gray)
                 Text("Restriction Status")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -120,10 +120,10 @@ private extension RestrictView {
     
     var restrictionControlButtons: some View {
         VStack(spacing: 12) {
-            if !isMonitoring {
+            if !manager.isMonitoring {
                 Button(action: {
                     manager.shieldActivities()
-                    isMonitoring = true
+                    manager.isMonitoring = true
                     statusMessage = "Restrictions applied."
                 }) {
                     HStack {
@@ -138,7 +138,8 @@ private extension RestrictView {
                 }
             } else {
                 Button(action: {
-                    isMonitoring = false
+                    manager.unshieldActivities()
+                    manager.isMonitoring = false
                     statusMessage = "Restrictions stopped."
                 }) {
                     HStack {
@@ -152,10 +153,9 @@ private extension RestrictView {
                     .cornerRadius(8)
                 }
             }
-            
+
             Button(action: {
-                manager.familyActivitySelection = FamilyActivitySelection()
-                isMonitoring = false
+                manager.clearRestrictions()
                 statusMessage = "All restrictions cleared."
             }) {
                 HStack {
@@ -227,6 +227,29 @@ private extension RestrictView {
         .background(Color.white.opacity(0.1))
         .cornerRadius(8)
     }
+
+    var resetDataSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Data Management")
+                .font(.headline)
+                .foregroundColor(.white)
+
+            Button(action: resetTaskData) {
+                HStack {
+                    Image(systemName: "trash.fill")
+                    Text("Reset All Task Data")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.red.opacity(0.7))
+                .foregroundColor(.white)
+                .cornerRadius(8)
+            }
+        }
+        .padding()
+        .background(Color.white.opacity(0.1))
+        .cornerRadius(8)
+    }
 }
 
 // MARK: - Logic: Family Controls + Core Data
@@ -286,6 +309,23 @@ private extension RestrictView {
             newSettings.defaultTimeToComplete = Int32(newValue)
             try? managedObjectContext.save()
             logger.info("Created new TaskSettings with defaultTimeToComplete = \(newValue)")
+        }
+    }
+
+    func resetTaskData() {
+        // Fetch all TaskEntity records and delete them
+        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        do {
+            let allTasks = try managedObjectContext.fetch(fetchRequest)
+            for task in allTasks {
+                managedObjectContext.delete(task)
+            }
+            try managedObjectContext.save()
+            logger.info("All task data has been reset")
+            statusMessage = "All task data has been reset."
+        } catch {
+            logger.error("Failed to reset task data: \(error.localizedDescription)")
+            statusMessage = "Failed to reset task data."
         }
     }
 }

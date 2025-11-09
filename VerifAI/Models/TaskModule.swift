@@ -9,21 +9,19 @@ class UserTask {
     var iterations: Int
     var iterationSet: [Iteration]
     var startTime: Date
-    var MinsUntilRestricting: Int?
     var restricting: Bool 
 
-    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date, MinsUntilRestricting: Int?) {
+    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date) {
         self.userPrompt = userPrompt
         self.rubric = rubric
         self.iterations = iterations
         self.iterationSet = iterationSet
         self.startTime = startTime
-        self.MinsUntilRestricting = MinsUntilRestricting
         self.restricting = false
     }
     
     var description: String {
-        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime.description ?? "nil"), MinsUntilRestricting: \(MinsUntilRestricting ?? 0), restricting: \(restricting))"
+        return "Task(userPrompt: \(userPrompt), iterations: \(iterations), rubric: \(rubric ?? "nil"), iterationSet: \(iterationSet), startTime: \(startTime.description ?? "nil"), restricting: \(restricting))"
     }
 }
 
@@ -52,8 +50,8 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func makeNewTask(userPrompt: String, iterations: Int, MinsUntilRestricting: Int?, beforeImage: Data?, completion: @escaping (UserTask) -> Void) {
-    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], startTime: Date(), MinsUntilRestricting: MinsUntilRestricting)
+func makeNewTask(userPrompt: String, iterations: Int, beforeImage: Data?, completion: @escaping (UserTask) -> Void) {
+    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], startTime: Date())
     if beforeImage != nil {
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the initial image, respond with two XML tags: <rubric> (a short guideline for measuring progress towards the user's goal) and <initialstate> (a 1-2 sentence description of the initial state of the image, especially as it relates to the rubric)."
         GrokService.shared.callGrokAPI(message: userPrompt, imageData: beforeImage, systemPrompt: systemPrompt) { result in
@@ -130,7 +128,6 @@ func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escap
                 task.iterationSet[iterationIndex].currentState = currentState
                 task.restricting = false
                 if iterationIndex == task.iterationSet.count - 1 {
-                    task.MinsUntilRestricting = -1
                     completion(.passed(isLastIteration: true, currentState: currentState))
                 } else {
                     task.startTime = Date()
@@ -164,8 +161,6 @@ func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
     taskEntity.rubric = task.rubric // Already optional
     taskEntity.iterations = Int16(task.iterations)
     taskEntity.startTime = task.startTime // Already optional
-    // Optional handling for minsUntilRestricting (Int16 cannot be nil)
-    taskEntity.minsUntilRestricting = Int16(task.MinsUntilRestricting ?? -1)
     taskEntity.restricting = task.restricting
     // Serialize iterationSet (array of currentState strings)
     let iterationStates = task.iterationSet.map { $0.currentState }

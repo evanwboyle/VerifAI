@@ -32,7 +32,6 @@
 		41AA527A2C075FE600786F96 /* ManagedSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AA52762C075FE600786F96 /* ManagedSettingsStore.swift */; };
 		76ED7BEB2EBF08390037E82F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE62EBF08390037E82F /* ContentView.swift */; };
 		76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE92EBF08390037E82F /* RestrictView.swift */; };
-		76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BEA2EBF08390037E82F /* SettingsView.swift */; };
 		76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE82EBF08390037E82F /* NewTaskView.swift */; };
 		76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7BE72EBF08390037E82F /* HomeView.swift */; };
 		76ED7C1B2EBF10940037E82F /* SharedAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */; };
@@ -119,7 +118,6 @@
 		76ED7BE72EBF08390037E82F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		76ED7BE82EBF08390037E82F /* NewTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskView.swift; sourceTree = "<group>"; };
 		76ED7BE92EBF08390037E82F /* RestrictView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictView.swift; sourceTree = "<group>"; };
-		76ED7BEA2EBF08390037E82F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		76ED7C1A2EBF10940037E82F /* SharedAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SharedAssets.xcassets; sourceTree = "<group>"; };
 		76ED7C1D2EBF13DE0037E82F /* SharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		76ED7C202EBF1E4E0037E82F /* GrokService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrokService.swift; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 				76ED7BE82EBF08390037E82F /* NewTaskView.swift */,
 				76ED7BE92EBF08390037E82F /* RestrictView.swift */,
 				76ED7C212EBF1E4E0037E82F /* Services */,
-				76ED7BEA2EBF08390037E82F /* SettingsView.swift */,
 				41AA52252C07351300786F96 /* ShieldView.swift */,
 				76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */,
 			);
@@ -502,7 +499,6 @@
 				76ED7C322EBFB8660037E82F /* PersistenceController.swift in Sources */,
 				76ED7BED2EBF08390037E82F /* RestrictView.swift in Sources */,
 				76ED7C2D2EBFB5930037E82F /* TaskModule.swift in Sources */,
-				76ED7BEE2EBF08390037E82F /* SettingsView.swift in Sources */,
 				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
 				76ED7C3B2EC007020037E82F /* TaskTabSwitcher.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,

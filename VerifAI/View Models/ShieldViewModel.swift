@@ -15,11 +15,22 @@ private let logger = Logger(subsystemName: "ShieldViewModel", category: "ViewMod
 
 class ShieldViewModel: ObservableObject {
     @Published var familyActivitySelection = FamilyActivitySelection()
-    
+    @Published var isMonitoring = false
+
     private let store = ManagedSettingsStore.shared
-    
+
     func shieldActivities() {
         store.shield(familyActivitySelection: familyActivitySelection)
+    }
+
+    func unshieldActivities() {
+        store.shield(familyActivitySelection: FamilyActivitySelection())
+    }
+
+    func clearRestrictions() {
+        unshieldActivities()
+        familyActivitySelection = FamilyActivitySelection()
+        isMonitoring = false
     }
     
     func requestAuthorization() async {

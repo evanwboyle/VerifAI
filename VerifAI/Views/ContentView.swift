@@ -10,12 +10,14 @@ struct ContentView: View {
         TabView {
             // Home Tab
             HomeView()
+                .environmentObject(manager)
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
 
             // Task Tab
             TaskTabSwitcher()
+                .environmentObject(manager)
                 .tabItem {
                     Label("Task", systemImage: "plus.circle.fill")
                 }
@@ -29,12 +31,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Restrict", systemImage: "shield.fill")
                 
-                }
-
-            // Settings Tab
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
                 }
         }
         .onAppear {

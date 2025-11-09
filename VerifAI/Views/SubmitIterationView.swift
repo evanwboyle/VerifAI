@@ -11,6 +11,7 @@ import PhotosUI
 import FamilyControls
 
 struct SubmitIterationView: View {
+    @EnvironmentObject private var manager: ShieldViewModel
     @Environment(\.managedObjectContext) private var context
     @State private var imageData: Data? = nil
     @State private var isLoading = false
@@ -39,7 +40,6 @@ struct SubmitIterationView: View {
                         Text("Iterations: \(task.iterations)")
                         Text("IterationSet: \(task.iterationSet.map { $0.currentState ?? "nil" }.joined(separator: ", "))")
                         Text("StartTime: \(task.startTime)")
-                        Text("MinsUntilRestricting: \(task.MinsUntilRestricting?.description ?? "nil")")
                         Text("Restricting: \(task.restricting.description)")
                     }
                     .font(.caption)
@@ -133,7 +133,7 @@ struct SubmitIterationView: View {
                     print("rubric: \(entity.rubric ?? "nil")")
                     print("iterations: \(entity.iterations)")
                     print("startTime: \(entity.startTime?.description ?? "nil")")
-                    print("minsUntilRestricting: \(entity.minsUntilRestricting)")
+
                     print("restricting: \(entity.restricting)")
                     // Decode iterationSetData
                     var iterationSet: [Iteration] = []
@@ -142,13 +142,23 @@ struct SubmitIterationView: View {
                             iterationSet = states.map { Iteration(currentState: $0) }
                         }
                     }
+
+                    // Check if all iterations have non-nil currentState
+                    let hasNoNilIterations = iterationSet.allSatisfy { $0.currentState != nil }
+                    if hasNoNilIterations && !iterationSet.isEmpty {
+                        // All iterations completed, delete task to switch to NewTaskView
+                        context.delete(entity)
+                        try context.save()
+                        debugInfo = "Task completed. Switched to NewTaskView."
+                        return
+                    }
+
                     let loadedTask = UserTask(
                         userPrompt: entity.userPrompt ?? "",
                         rubric: entity.rubric,
                         iterations: Int(entity.iterations),
                         iterationSet: iterationSet,
                         startTime: entity.startTime ?? Date(),
-                        MinsUntilRestricting: Int(entity.minsUntilRestricting)
                     )
                     loadedTask.restricting = entity.restricting
                     userTask = loadedTask
@@ -181,6 +191,7 @@ struct SubmitIterationView: View {
                                     resultState = currentState
                                     isCompleted = true
                                     unlockMessage = true
+                                    manager.clearRestrictions()
                                     saveUserTaskToCoreData(task, context: context)
                                 case .failed(let currentState):
                                     print("Iteration failed. State: \(currentState)")
