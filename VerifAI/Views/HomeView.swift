@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import CoreData
 
 extension Color {
     init(hex: String) {
@@ -28,9 +29,83 @@ extension Color {
     }
 }
 
+struct CalendarDay: Identifiable {
+    let id = UUID()
+    let date: Date
+    let isStreak: Bool
+}
+
+struct StreakCalendarView: View {
+    let days: [CalendarDay]
+    let month: Date
+    let streakCount: Int
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Text(month, style: .date)
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.8))
+
+                Text("     Streak: \(streakCount)")
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.8))
+            }
+            .padding(.horizontal, 16)
+            .frame(maxWidth: 350) // lock to calendar width
+            let weeks = days.chunked(into: 7)
+            VStack(spacing: 8) {
+                ForEach(weeks.indices, id: \ .self) { weekIndex in
+                    HStack(spacing: 8) {
+                        ForEach(weeks[weekIndex]) { day in
+                            Text("\(Calendar.current.component(.day, from: day.date))")
+                                .frame(width: 32, height: 32)
+                                .background(day.isStreak ? Color(hex: "#FFA726") : Color.clear)
+                                .foregroundColor(day.isStreak ? .black : .white.opacity(0.7))
+                                .cornerRadius(12)
+                        }
+                    }
+                }
+            }
+            .padding(8)
+            .background(Color(hex: "#1A2B2F").opacity(0.7))
+            .cornerRadius(16)
+            .frame(maxWidth: 350)
+        }
+        .padding(.vertical)
+    }
+}
+
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}
+
 struct HomeView: View {
     @State private var showingNewTask = false
     @State private var showingPreviousTasks = false
+    // Hardcoded streak days for Nov 8 and Nov 9, 2025
+    private var calendarDays: [CalendarDay] {
+        let calendar = Calendar.current
+        let today = Date()
+        let monthInterval = calendar.dateInterval(of: .month, for: today)!
+        var days: [CalendarDay] = []
+        let streakDates: [Date] = [
+            calendar.date(from: DateComponents(year: 2025, month: 11, day: 8))!,
+            calendar.date(from: DateComponents(year: 2025, month: 11, day: 9))!
+        ]
+        for offset in 0..<(calendar.range(of: .day, in: .month, for: today)!.count) {
+            if let date = calendar.date(byAdding: .day, value: offset, to: monthInterval.start) {
+                let isStreak = streakDates.contains { calendar.isDate($0, inSameDayAs: date) }
+                days.append(CalendarDay(date: date, isStreak: isStreak))
+            }
+        }
+        return days
+    }
+    private var currentStreak: Int { 2 }
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
@@ -38,10 +113,9 @@ struct HomeView: View {
                     .font(.title)
                     .foregroundColor(.white)
                     .padding(.top)
-
-                Button(action: {
-                    showingNewTask = true
-                }) {
+                // Calendar streak tracker
+                StreakCalendarView(days: calendarDays, month: Date(), streakCount: currentStreak)
+                NavigationLink(destination: TaskTabSwitcher()) {
                     Label("Start New Task", systemImage: "plus.circle.fill")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -51,48 +125,7 @@ struct HomeView: View {
                         .cornerRadius(10)
                 }
                 .padding(.horizontal)
-                .sheet(isPresented: $showingNewTask) {
-                    // Placeholder new task view — replace with your real task creation UI
-                    VStack(spacing: 16) {
-                        Text("New Task")
-                            .font(.title2)
-                            .padding(.top)
-                        Text("Implement your task creation UI here.")
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                        Button("Dismiss") { showingNewTask = false }
-                            .padding()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-                
-                Button(action: {
-                    showingPreviousTasks = true
-                }) {
-                    Label("View Previous Tasks", systemImage: "list.bullet.rectangle")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color(hex: "#3FBC99"))
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
-                .sheet(isPresented: $showingPreviousTasks) {
-                    VStack(spacing: 16) {
-                        Text("Previous Tasks")
-                            .font(.title2)
-                            .padding(.top)
-                        Text("No previous tasks yet. This is a placeholder.")
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                        Button("Dismiss") { showingPreviousTasks = false }
-                            .padding()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-
-                                Spacer()
+                Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(hex: "#295F50"))
