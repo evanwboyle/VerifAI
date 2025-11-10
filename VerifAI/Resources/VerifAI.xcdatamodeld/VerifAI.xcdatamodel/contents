@@ -5,6 +5,7 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="difficulty" optional="YES" attributeType="String" defaultValueString="regular"/>
         <attribute name="iterations" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="iterationSetData" optional="YES" attributeType="Binary"/>
         <attribute name="minsUntilRestricting" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

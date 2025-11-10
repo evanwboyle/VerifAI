@@ -47,9 +47,10 @@ struct NewTaskView: View {
     @State private var beforePicOn: Bool = false
     @State private var taskDurationMinutes: Int = 0
     @State private var allowedAppTimeMinutes: Int = 0
+    @State private var selectedDifficulty: TaskDifficulty = .regular
 
     @State private var showingImagePicker = false
-    @State private var pickerSourceType: UIImagePickerController.SourceType = .photoLibrary // Can be removed if not needed
+    @State private var showingCameraPicker = false
     @State private var selectedImage: UIImage? = nil
     @State private var showingSourceChoice = false
 
@@ -74,6 +75,34 @@ struct NewTaskView: View {
                             .foregroundColor(.verifAIText)
                     
     
+                    }
+                    .padding()
+                    .background(Color.verifAICard)
+                    .cornerRadius(12)
+
+                    // Card: Difficulty Selector
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("How strictly should we evaluate your progress?")
+                            .font(.headline)
+                            .foregroundColor(.verifAIText)
+
+                        HStack(spacing: 12) {
+                            difficultyButton(for: .lenient, label: "Lenient", color: .green)
+                            difficultyButton(for: .regular, label: "Regular", color: .yellow)
+                            difficultyButton(for: .extreme, label: "Extreme", color: .purple)
+                        }
+
+                        // Description for selected difficulty
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(selectedDifficultyLabel())
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(selectedDifficultyColor())
+                            Text(selectedDifficultyDescription())
+                                .font(.caption)
+                                .foregroundColor(.verifAIText.opacity(0.7))
+                        }
+                        .padding(.top, 4)
                     }
                     .padding()
                     .background(Color.verifAICard)
@@ -165,7 +194,8 @@ struct NewTaskView: View {
                                 makeNewTask(
                                     userPrompt: prompt,
                                     iterations: repetitionsOn ? repetitions : 1,
-                                    beforeImage: beforeData
+                                    beforeImage: beforeData,
+                                    difficulty: selectedDifficulty
                                 ) { newTask in
                                     let context = PersistenceController.shared.container.viewContext
                                     saveUserTaskToCoreData(newTask, context: context)
@@ -224,6 +254,9 @@ struct NewTaskView: View {
             .toolbarBackground(Color.verifAIBackground, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .confirmationDialog("Select Photo Source", isPresented: $showingSourceChoice, titleVisibility: .visible) {
+                Button("Camera") {
+                    showingCameraPicker = true
+                }
                 Button("Photo Library") {
                     showingImagePicker = true
                 }
@@ -233,11 +266,64 @@ struct NewTaskView: View {
                 ImagePicker(image: $selectedImage)
                     .ignoresSafeArea()
             }
+            .sheet(isPresented: $showingCameraPicker) {
+                CameraPicker(image: $selectedImage)
+                    .ignoresSafeArea()
+            }
             .alert("Task saved", isPresented: $showSavedAlert) {
                 Button("OK") { }
             } message: {
                 Text("Saved to sharedTaskList (check console).")
             }
+        }
+    }
+
+    // MARK: - Difficulty Selector Helpers
+    private func difficultyButton(for difficulty: TaskDifficulty, label: String, color: Color) -> some View {
+        Button(action: { selectedDifficulty = difficulty }) {
+            VStack(spacing: 4) {
+                Text(label)
+                    .font(.caption)
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+            .background(selectedDifficulty == difficulty ? color.opacity(0.8) : Color.white.opacity(0.2))
+            .foregroundColor(.verifAIText)
+            .cornerRadius(8)
+        }
+    }
+
+    private func selectedDifficultyLabel() -> String {
+        switch selectedDifficulty {
+        case .lenient:
+            return "Lenient - Be very forgiving"
+        case .regular:
+            return "Regular - Be fair and balanced"
+        case .extreme:
+            return "Extreme - Be very strict"
+        }
+    }
+
+    private func selectedDifficultyDescription() -> String {
+        switch selectedDifficulty {
+        case .lenient:
+            return "The evaluation will accept any meaningful progress toward your goal."
+        case .regular:
+            return "The evaluation will check for clear and substantive progress toward your goal."
+        case .extreme:
+            return "The evaluation will require significant, measurable progress closely following the rubric."
+        }
+    }
+
+    private func selectedDifficultyColor() -> Color {
+        switch selectedDifficulty {
+        case .lenient:
+            return .green
+        case .regular:
+            return .yellow
+        case .extreme:
+            return .purple
         }
     }
 }

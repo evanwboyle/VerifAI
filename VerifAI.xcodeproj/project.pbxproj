@@ -47,6 +47,7 @@
 		76ED7C372EBFFF0B0037E82F /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76ED7C352EBFFF0B0037E82F /* Secrets.plist */; };
 		76ED7C392EC005AF0037E82F /* SubmitIterationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */; };
 		76ED7C3B2EC007020037E82F /* TaskTabSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */; };
+		76ED7C7A2EC05EE70037E82F /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ED7C792EC05EE70037E82F /* CameraPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +130,7 @@
 		76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitIterationView.swift; sourceTree = "<group>"; };
 		76ED7C3A2EC007020037E82F /* TaskTabSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabSwitcher.swift; sourceTree = "<group>"; };
 		76ED7C3C2EC0155E0037E82F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		76ED7C792EC05EE70037E82F /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +232,7 @@
 				76ED7C382EC005AF0037E82F /* SubmitIterationView.swift */,
 				76ED7BE72EBF08390037E82F /* HomeView.swift */,
 				76ED7BE82EBF08390037E82F /* NewTaskView.swift */,
+				76ED7C792EC05EE70037E82F /* CameraPicker.swift */,
 				76ED7BE92EBF08390037E82F /* RestrictView.swift */,
 				76ED7C212EBF1E4E0037E82F /* Services */,
 				41AA52252C07351300786F96 /* ShieldView.swift */,
@@ -502,6 +505,7 @@
 				76ED7C282EBF968A0037E82F /* ImagePicker.swift in Sources */,
 				76ED7C3B2EC007020037E82F /* TaskTabSwitcher.swift in Sources */,
 				76ED7BEF2EBF08390037E82F /* NewTaskView.swift in Sources */,
+				76ED7C7A2EC05EE70037E82F /* CameraPicker.swift in Sources */,
 				76ED7BF02EBF08390037E82F /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,6 +696,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VerifAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VerifAI;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to track progress on tasks live";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -725,6 +730,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VerifAI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VerifAI;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Use the camera to track progress on tasks live";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

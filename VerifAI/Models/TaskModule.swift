@@ -3,21 +3,29 @@ import SwiftUI
 import FamilyControls
 import CoreData
 
+enum TaskDifficulty: String, Codable {
+    case lenient
+    case regular
+    case extreme
+}
+
 class UserTask {
     var userPrompt: String
     var rubric: String?
     var iterations: Int
     var iterationSet: [Iteration]
     var startTime: Date
-    var restricting: Bool 
+    var restricting: Bool
+    var difficulty: TaskDifficulty
 
-    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date) {
+    init(userPrompt: String, rubric: String? = nil, iterations: Int = 0, iterationSet: [Iteration], startTime: Date, difficulty: TaskDifficulty = .regular) {
         self.userPrompt = userPrompt
         self.rubric = rubric
         self.iterations = iterations
         self.iterationSet = iterationSet
         self.startTime = startTime
         self.restricting = false
+        self.difficulty = difficulty
     }
     
     var description: String {
@@ -50,8 +58,19 @@ func extractXMLTag(_ xml: String, tag: String) -> String? {
     return String(xml[start.upperBound..<end.lowerBound]).trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func makeNewTask(userPrompt: String, iterations: Int, beforeImage: Data?, completion: @escaping (UserTask) -> Void) {
-    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], startTime: Date())
+func getDifficultyGuidance(_ difficulty: TaskDifficulty) -> String {
+    switch difficulty {
+    case .lenient:
+        return "Be very generous with your evaluation. The user just needs to show some meaningful progress towards the goal."
+    case .regular:
+        return "Be balanced and fair in your evaluation. The user needs to show clear and substantive progress towards the goal."
+    case .extreme:
+        return "Be strict in your evaluation. The user needs to closely follow the rubric and demonstrate significant, measurable progress to pass."
+    }
+}
+
+func makeNewTask(userPrompt: String, iterations: Int, beforeImage: Data?, difficulty: TaskDifficulty = .regular, completion: @escaping (UserTask) -> Void) {
+    let task = UserTask(userPrompt: userPrompt, iterations: iterations, iterationSet: [], startTime: Date(), difficulty: difficulty)
     if beforeImage != nil {
         let systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the initial image, respond with two XML tags: <rubric> (a short guideline for measuring progress towards the user's goal) and <initialstate> (a 1-2 sentence description of the initial state of the image, especially as it relates to the rubric)."
         GrokService.shared.callGrokAPI(message: userPrompt, imageData: beforeImage, systemPrompt: systemPrompt) { result in
@@ -110,11 +129,12 @@ func updateTaskWithIteration(task: UserTask, imageData: Data, completion: @escap
     } else {
         previousState = task.iterationSet[iterationIndex - 1].currentState ?? ""
     }
+    let difficultyGuidance = getDifficultyGuidance(task.difficulty)
     let systemPrompt: String
     if previousState.isEmpty {
-        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the current image, respond with two XML tags: <currentstate>, which contains a 1-2 sentence description of the current state of the image, especially as it relates to the rubric, and <passed>, which is either 'yes' or 'no' indicating whether the current state meets the rubric criteria. Since there is no previous state, focus on describing the current state in isolation. Respond with ONLY Yes or no. Never respond with anything else. Be a bit generous."
+        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt and the current image, respond with ONLY the following XML tags (nothing else):\n<currentstate>A 1-2 sentence description of the current state of the image, especially as it relates to the rubric. Since there is no previous state, focus on describing the current state in isolation.</currentstate>\n<passed>yes or no indicating whether the current state meets the rubric criteria. \(difficultyGuidance)</passed>"
     } else {
-        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt, the current image, and the previous state: '\(previousState)', respond with two XML tags: <currentstate>, which contains a 1-2 sentence description of the current state of the image, especially as it relates to the rubric and the progress made from the previous state, and <passed>, which is either 'yes' or 'no' indicating whether the current state meets the rubric criteria. Respond with ONLY Yes or no. Never respond with anything else. Be a bit generous."
+        systemPrompt = "You are an expert at evaluating progress towards goals. Given the user's prompt, the current image, and the previous state: '\(previousState)', respond with ONLY the following XML tags (nothing else):\n<currentstate>A 1-2 sentence description of the current state of the image, especially as it relates to the rubric and the progress made from the previous state.</currentstate>\n<passed>yes or no indicating whether the current state meets the rubric criteria. \(difficultyGuidance)</passed>"
     }
     GrokService.shared.callGrokAPI(message: task.userPrompt, imageData: imageData, systemPrompt: systemPrompt) { result in
         switch result {
@@ -162,6 +182,7 @@ func saveUserTaskToCoreData(_ task: UserTask, context: NSManagedObjectContext) {
     taskEntity.iterations = Int16(task.iterations)
     taskEntity.startTime = task.startTime // Already optional
     taskEntity.restricting = task.restricting
+    taskEntity.difficulty = task.difficulty.rawValue
     // Serialize iterationSet (array of currentState strings)
     let iterationStates = task.iterationSet.map { $0.currentState }
     if let data = try? JSONEncoder().encode(iterationStates) {
